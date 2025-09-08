@@ -2,14 +2,14 @@
 Gloria Pulido
 ## Domains
 1. **Being a caretaker:** organizing and navigating taking care of a loved one
-2. **Productivity:** list out what has already been done, see what others are up to, could be specific school setting
-3. **Jobs:** keeping track of applications and documents, receive personalized tips
+2. **Productivity:** listing out what has already been done and seeing what others are up to, especially in a school setting
+3. **Jobs:** keeping track of applications and documents, receiving personalized tips
 4. **Smart spending:** before deciding to spend money, reflecting on value of what you’re planning to buy
 5. **Sports:** getting personalized recommendations on games
-6. **Moving & packing:** keep track of everything you need for a move and receive suggestions
-7. **Puzzles:** create puzzles to share and play with others
+6. **Moving & packing:** keeping track of everything you need for a move and receive suggestions
+7. **Puzzles:** creating puzzles to share and play with others
 
-8. **SELECTED, Problem solving:** Problem solving is extremely relevant in the life of every person regardless of age or background, so it would be interesting to explore an app that can solve the problem of wanting to solve problems. By navigating through any issues between people, it generally improves one’s life, which will have other indirect effects such as reduced stress, potentially money saved, and time saved. A lot of people need additional support when it comes to problem solving, especially when it comes to roommates, coworkers, or other groups. I think back to my own personal experience where I had a chaotic shared living situation and reflected a lot on how to fix those issues and compromise.  
+8. **SELECTED, Problem solving:** Problem solving is extremely relevant in the life of every person regardless of age or background, so it would be interesting to explore an app that can solve the problem of wanting to solve problems. By navigating through any issues between people, it generally improves one’s life, which will have other indirect effects such as reduced stress, potentially money saved, and time saved. A lot of people need additional support when it comes to problem solving, especially when it comes to roommates, coworkers, or other groups. I think back to my own personal experience with my past living situations and group projects.  
 9. **SELECTED, Thrifting:** The idea of reusing items has become more popular in recent years, especially with the increased popularity of thrift stores, and it’s something I think is particularly important. Based on my own past personal experiences, I’ve gone seconds away from throwing something away and then deciding it could be used elsewhere. I cannot count how many times I’ve reused jars for things like planting and even as a cup, which has been useful as well for my budget. It’s important to get the most of something before deciding that it does not have any value or is not worth having. The mindset of “one man's trash is another man's treasure” is pretty important to have about one’s own items. 
 10. **SELECTED, Developing new hobbies & skills:** When I consider my own hobbies and skills, I think a lot about how there are many things that I have never thought to even explore. My friends have introduced me to cool hobbies such as crocheting in the past, which have all been nice opportunities to pick up something new and learn with my friends. I always want to make sure that I am open to new skills, especially ones that I haven’t heard of, which I am certain is a common feeling among others. 
 
