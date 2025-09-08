@@ -29,21 +29,21 @@ Gloria Pulido
 3. **SELECTED, Encountering obstacles to mastering a hobby/skill:** For a title, I would pick LevelUp. I included this one since I believe there is a lot of potential for it as people are always searching for something to do and wanting to grow. Most of those same people will also deal with challenges to mastering something, which is where solving this problem could be extremely beneficial. It is something that I am personally interested in as well since I find that like most, once one obstacle comes up, motivation to continue goes down and it leads to a lot of projects being unfinished rather than remaining dedicated and accountable. 
 
 ## Stakeholders
-### Problem Solving
+### How to Decide on a Solution 
 - User, a college student tired of her messy roommates
 - Roommates, people that live with the User
 - Landlord, in charge of managing the apartment 
 
-Whether or not they use the app, all of these stakeholders could be affected by the outcome of the app. The User, who decides to initiate the conversation regarding using the app will benefit the most as they are the one feeling the effects of the problem to a degree that they feel the need to bring in that external support. They will also be the best person to consider if the problem has been “solved” for that same reason. The Roommates will increase their self-awareness due to the app being mentioned, and will change their habits potentially based on the app being able to mediate successfully. The Landlord would be involved based on how the app goes. For example, if the roommates decide someone has to go or decide it’s time to demand the changes they need to the facilities in their apartment, the landlord could be called in. In this case, a Landlord having to lose or spend money could be positive for judging the effectiveness of the app. 
+Whether or not they use the app, all of these stakeholders could be affected by the outcome of the app. The User, who decides to initiate the conversation regarding using the app will benefit the most as they are the one feeling the effects of the problem to a degree that they feel the need to bring in that external support. They will also be the best person to consider if the problem has been “solved” for that same reason. The Roommates will increase their self-awareness due to the app being mentioned, and will change their habits potentially based on the app being able to mediate successfully. The Landlord would be involved based on how the app goes. For example, if the roommates decide someone has to go or decide it’s time to demand the changes they need to the facilities in their apartment, the landlord could be called in. In this case, a Landlord having to lose or spend money could be positive for judging the effectiveness of the app as a solution. 
 
-### Thrifting
+### Finding Ideas for Re-using Something
 - User #1, a college student looking to save money
 - User #2, a woman tired of Pinterest and looking to be as creative as possible
 - Waste collector, person that comes around weekly to gather the waste and recycling
 
 The best way to judge the effectiveness of the app for User #1 is if they find that they are spending less money on new clothes and other items. For User #2, the best way could be if they end up spending more money since they find that for their attempts to turn something such as scraps of paper into something usable, it could lead to more money being spent but all of it being used still. For a waste collector, they may find that if they are doing their weekly rounds on the street where User #1 and User #2 live, they will have less lifting to do as there is significantly less trash which means they are able to relax for more of their shift, which also indirectly improves their health.
 
-### Developing New Hobbies & Skills
+###  Encountering Obstacles to Mastering a Hobby or Skill 
 - User #1, a person looking to learn how garden
 - User #2, a person looking to learn how to code in order to get a new job
 - Business owner of a gardening shop, sells items for User #1
