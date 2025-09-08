@@ -1,5 +1,6 @@
 # Assignment 1
 Gloria Pulido
+[ReadMe](../README.md)
 ## Domains
 1. **Being a caretaker:** organizing and navigating taking care of a loved one
 2. **Productivity:** listing out what has already been done and seeing what others are up to, especially in a school setting
