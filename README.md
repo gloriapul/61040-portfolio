@@ -6,3 +6,4 @@ My name is Gloria Pulido, I'm a senior and a computer science major, nice to mee
 
 # Table of Contents
 [Link to Assignment 1](assignments/assignment1.md)
+[Problem Set 1](assignments/pset1.md)
