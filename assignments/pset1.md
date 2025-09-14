@@ -43,3 +43,8 @@ Then, there would be corresponding actions for it, the same as the open and clos
 > off (registry: Registry)
 >> requires registry exists and it is on\
 >> effects make registry visible to owner User
+
+### 7. The User and Item types are specified as generic parameters. The Item type might be populated by SKU codes, for example. Explain why this is preferable to representing items with their names, descriptions, prices, etc.
+
+It is far preferable to using names, descriptions, prices, or another element since it ensures the right Item is being requested. For instance, the owner User may be requesting diapers for a baby shower but may have a specific brand, material, or color they want them in. Though the User could input the name or description to a structured element, it adds an extra layer of work for both the User and those looking to purchase. This removes the burden on the ones looking to make the purchase to figure out where to buy the Item from. Instead, the User can select their Item specifically, which would be populated by SKU codes that are unique and will directly point to the exact Item they are looking for. 
+
