@@ -48,3 +48,20 @@ Then, there would be corresponding actions for it, the same as the open and clos
 
 It is far preferable to using names, descriptions, prices, or another element since it ensures the right Item is being requested. For instance, the owner User may be requesting diapers for a baby shower but may have a specific brand, material, or color they want them in. Though the User could input the name or description to a structured element, it adds an extra layer of work for both the User and those looking to purchase. This removes the burden on the ones looking to make the purchase to figure out where to buy the Item from. Instead, the User can select their Item specifically, which would be populated by SKU codes that are unique and will directly point to the exact Item they are looking for. 
 
+## Exercise 2
+
+### 1. Complete the definition of the concept state.
+> A set of Users with
+>> A username String\
+>> A password String
+
+### 2. Write a requires/effects specification for each of the two actions. (Hints: The register action creates and returns a new user. The authenticate action is primarily a guard, and doesn’t mutate the state.)
+> register (username: String, password: String): (user: User)
+>> requires the username to not already exist\
+>> effects create a new username with the corresponding password
+
+> authenticate (username: String, password: String): (user: User)
+>> requires username to exist and for password to correspond to it
+
+### 3. What essential invariant must hold on the state? How is it preserved?
+The essential invariant would be that there must be at most one user with a given username. This avoids duplicate usernames and the confusion that would come with it. It is preserved by the register action, which checks if the username that a User is attempting to register with already exists. It will not allow it if the username already exists. 
