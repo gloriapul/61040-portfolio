@@ -65,3 +65,55 @@ It is far preferable to using names, descriptions, prices, or another element si
 
 ### 3. What essential invariant must hold on the state? How is it preserved?
 The essential invariant would be that there must be at most one user with a given username. This avoids duplicate usernames and the confusion that would come with it. It is preserved by the register action, which checks if the username that a User is attempting to register with already exists. It will not allow it if the username already exists. 
+
+### 4. One widely used extension of this concept requires that registration be confirmed by email. Extend the concept to include this functionality. (Hints: you should add (1) an extra result variable to the register action that returns a secret token that (via a sync) will be emailed to the user; (2) a new confirm action that takes a username and a secret token and completes the registration; (3) whatever additional state is needed to support this behavior.)
+> A set of Users with
+>> A username String\
+>> A password String\
+>> An email String\
+>> A confirmation flag Boolean
+
+> register (username: String, password: String, email: String, flag: Boolean): (user: User, token: String)
+>> requires the username and email to not already exist
+>> effects create a new username w/ the corresponding password and sets confirmation Flag to false, sends a token
+
+> authenticate (username: String, password: String): (user: User)
+>> requires username to exist and for password to correspond to it
+
+> confirm (username: String, token: String)
+>> requires the username and email to exist, as well as for the confirmation link or code the user received via email to be clicked on
+>> effects the confirmation Flag is set to true
+
+## Exercise 3
+
+### 1. A concept specification for PersonalAccessToken and a succinct note about how it differs from PasswordAuthentication and how you might change the GitHub documentation to explain this.
+
+A PersonalAccessToken is different in the sense that it is tailored to programmers who are looking for a secure manner to, for instance, push updates to their code. They are not logging into anything or looking to change anything specifically in their account, it adds an extra level of protection for repositories. In the Github documentation, it would be most ideal to remove all comparisons between a password and a token, particularly the line “Treat your access tokens like passwords.” This, similar to Twitter’s problematic favorite, creates confusing comparisons for a feature that does share some similarities with a password but has a more specific and unique purpose. Instead, the documentation should emphasize the importance of keeping the token secure and the fact that though a username is required to enter when using the token, the token alone is used for authentication. 
+
+> concept PersonalAccessToken
+>> purpose limit Github access to known users\
+>> principle provided the user has an account, Github generate them a token that replaces the use of a password in a command line and API setting
+
+> state
+>> a set of Users with 
+>>> a username String\
+>>> a password String\
+>>> a set of Tokens
+
+>> a set of Tokens with
+>>> a value String\
+>>> an expiration date String\
+>>> a scope [String]\
+>> a note String
+
+> actions
+>> generate (user: User, a scope: [String], expiration date: String, note: String): (token: Token)
+>>> requires User must be logged in\
+>>> effects creates a value for the token\
+
+>> authenticate (username: String, token: Token)\
+>>> requires User must have an unexpired token
+
+>> delete (user: User, token: Token): (user: User)\
+>>> requires Token belongs to the User\
+>>> effects removes token from User’s set of Tokens
