@@ -1,1 +1,45 @@
-Problem Set 1
+# Problem Set 1
+Gloria Pulido
+
+[ReadMe](../README.md)
+
+## Exercise 1
+
+### 1. What are two invariants of the state? (Hint: one is about aggregation/counts of items, and one relates requests and purchases). Say which one is more important and why; identify the action whose design is most affected by it, and say how it preserves it.
+
+One invariant would be that the amount of an Item attempting to be bought in a Purchase must be less than or equal to the amount of the Item still being requested in the Request. The action whose design would most be affected by this invariant would be purchase. This action preserves the invariant by checking that for the amount of an Item attempting to be purchased, there must exist at least that count for the Item in the Request. This ensures that the count of the Item in a Request does not become negative and not more than what is needed is purchased. 
+
+Another invariant would be that every Purchase being made must correspond to a Request with the same Item in the same Registry. The action whose design is most affected by this invariant would also be purchase. This action preserves the invariant by confirming the Registry’s existence and ensures that the Item attempting to be purchased does exist within the Registry. By doing so, it prevents any issues with purchases being made for Items that are not in any Request of the Registry. It also allows accurate linking between a Purchase and Request when it comes to the Item’s count. This invariant could be considered more important than the previous one as it keeps the entire system of having a Registry in check. Without this condition, items that were not requested could be purchased in large quantities while ones that were requested could be neglected. There could be a set of Purchases that may not correspond to any of the set of Requests. This would damage the ability to maintain a count of items purchased and would defeat the entire purpose of having a Registry. 
+
+### 2. Can you identify an action that potentially breaks this important invariant, and say how this might happen? How might this problem be fixed?
+An action that could potentially break the important invariant would be removeItem. A situation where it could be broken is if an item that was being requested is removed but has already been purchased by others. By doing this, it means there would be a set of Purchases that do not correspond to any Requests, which breaks the invariant and is problematic for the purpose of having a Registry. This problem can be fixed by adding in more to the required aspect of the action, which is that the item cannot be removed after there exists a Purchase for it. In this setup, the user would have to accept the initial amount they provided for how much they wanted of the Item in order to assist in preserving the invariant and basic purpose of their Registry. 
+
+### 3. The operational principle describes the typical scenario in which the registry is opened and eventually closed. But a concept specification often allows other scenarios. By reading the specs of the concept actions, say whether a registry can be opened and closed repeatedly. What is a reason to allow this?
+By reading the species of the concept actions, specifically open and close, the registry can be opened and closed repeatedly. A reason to allow that ability is that a user may find that they have to delay or temporarily cancel the event they are receiving gifts for, which means they would not want to receive purchases in the meantime. They can then easily reopen the registry to avoid having to start over for the same event. 
+
+### 4. There is no action to delete a registry. Would this matter in practice?
+This could matter in practice, especially for active users. Users will have a lifetime of parties and though once they mark their registry as inactive it would not show up for others, it would for them. It could add unnecessary clutter for something they may not plan on ever taking inspiration from again. If the User has to pay to use the app based on the number of registries they have, that would also be a problematic case. The User may have also created a registry on accident and having an ‘undo’ with the form of the delete is fundamental for any app. 
+
+### 5. What are two common queries likely to be executed against the concept state? (Hint: one is executed by a registry owner, and one by a giver of a gift.)
+One query executed by a registry owner would be checking which items have been purchased and by which person. As the one receiving the gift, the owner would be very interested in finding this out whether it be for purely informational purposes or wanting to show gratitude with directed messages.
+
+Another common query executed by the giver of a gift would be to check which items are still left to be able to purchase. The point of a registry is to give requested items and if some requests have already been fulfilled, a person would want to find one that has not been fulfilled yet.
+
+### 6. A common feature of gift registries is to allow the recipient to choose not to see purchases so that an element of surprise is retained. How would you augment the concept specification to support this?
+One could augment the concept specification with the state by adding a purchase visibility flag to the Registry. The updated state for the Registry itself would be:
+
+> a set of Registries with
+>> an owner User\
+>> an active Flag\
+> a set of Requests\
+>> a purchase visibility Toggle 
+     
+Then, there would be corresponding actions for it, the same as the open and close actions that work for the Flag. 
+
+> on (registry: Registry)
+>> requires registry exists and it is not off\
+>> effects make registry’s purchase invisible to owner User
+
+> off (registry: Registry)
+>> requires registry exists and it is on\
+>> effects make registry visible to owner User
