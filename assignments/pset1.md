@@ -118,3 +118,31 @@ A PersonalAccessToken is different in the sense that it is tailored to programme
 >> delete (user: User, token: Token): (user: User)\
 >>> requires token belongs to the User\
 >>> effects removes token from User’s set of Tokens
+
+## Exercise 4
+
+### 1. Three concept specifications, with any subtleties explained in brief additional notes.
+
+#### URL Shortener
+
+> purpose create a short and easy to type alias for a longer URL\
+> principle a mapping is set up for an alias and the original URL. When a user searches for the shortened URL, they are directed to their original URL.
+
+> state
+>> A Mapping with
+>>> an alias String\
+>>> an originalURL String
+
+> actions 
+>> shorten (originalURL: String, alias: String): (shortenedURL: String)
+>>> require  if entering alias, for it to not already exist\
+>>> effect creates a shortened URL using the alias the user entered
+
+>> shorten (originalURL: String): (shortenedURL: String, Mapping: Mapping)
+>>> effect creates a shortened URL by setting the alias as an automatically generated one, sets up the Mapping with that generated alias
+
+The act of searching takes place outside of the application, so it was not included as it would be a manner of testing the functionality rather than being a fundamental part of the concept. There are also two shorten actions depending on if the user enters their custom alias or opts for it to be generated. I also did not included shortenedURL in the state since it is just a fixed string tinyurl.com part + the alias. 
+
+#### Billable Hours Tracking
+
+#### Conference Room Booking
