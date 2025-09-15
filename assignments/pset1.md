@@ -174,7 +174,35 @@ The act of searching takes place outside of the application, so it was not inclu
 >>> require a session has gone more than 8 hours as active\
 >>> effects ends session with the current timestamp endTime, marks it as complete
 
-I selected 8 hours as that is the duration of a typical workday since in majority of cases if a user forgets to end a work session, it is due to them having spent the day with them and forgetting to clock out before leaving work.  
+I selected 8 hours as that is the duration of a typical workday since in majority of cases if a user forgets to end a work session, it is due to them having spent the day with them and forgetting to clock out before leaving work. Adding an edit action would be more so up to the company and is outside of this concept's description of automated record keeping with how it's stated that it should be done.
 
 
 #### Conference Room Booking
+
+> purpose allow a user to reserve a space for themselves or a group\
+> principle a user selects a room and checks off the time they want to reserve it for. The system ensures there are no overlapping sessions and confirms the booking. 
+
+> state
+>> a set of Bookings with
+>>> a owner User\
+>>> a sessionName String\
+>>> a description String?\
+>>> a startTime String\
+>>> an endTime String\
+>>> a space String\
+>>> a secondaryOwners [String]?
+
+> actions
+>> book (owner: User, sessionName: String, description: String, secondaryOwners: [String], startTime: String, endTime, String): (booking: Booking)
+>>> requires no owner or secondary owner to have a booking already existing within that time slot and for the space to be available\
+>>> effects creates a booking for the owner(s) that no one else can reserve between the startTime and endTime
+
+>> edit (owner: User, sessionName: String, description: String, secondaryOwners: String, startTime: String, endTime, String): (booking: Booking)
+>>> requires no owner or secondary owner to have another booking already existing within that time slot and for the space to still be available\
+>>> effects updates the booking for the owner(s) that will continue to not allow for anyone else to reserve the space between the startTime and endtime
+
+>> cancel (owner: User, secondaryOwners: [String])
+>>> requires booking exists and is tied to the owner or any of the secondaryOwners\
+>>> effects removes the booking from everyone's view
+
+The fields description and secondaryOwners would not be required. 
