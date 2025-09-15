@@ -89,11 +89,11 @@ The essential invariant would be that there must be at most one user with a give
 
 ### 1. A concept specification for PersonalAccessToken and a succinct note about how it differs from PasswordAuthentication and how you might change the GitHub documentation to explain this.
 
-A PersonalAccessToken is different in the sense that it is tailored to programmers who are looking for a secure manner to, for instance, push updates to their code. They are not logging into anything or looking to change anything specifically in their account, it adds an extra level of protection for repositories. In the Github documentation, it would be most ideal to remove all comparisons between a password and a token, particularly the line “Treat your access tokens like passwords.” This, similar to Twitter’s problematic favorite, creates confusing comparisons for a feature that does share some similarities with a password but has a more specific and unique purpose. Instead, the documentation should emphasize the importance of keeping the token secure and the fact that though a username is required to enter when using the token, the token alone is used for authentication. 
+A PersonalAccessToken is different in the sense that it is tailored to programmers who are looking for a secure manner to, for instance, push updates to their code. They are not logging into their account using a regular password or looking to change anything specifically in their account, it adds an extra level of protection for items such as repositories. In the Github documentation, it would be most ideal to remove all comparisons between a password and a token, particularly the line “Treat your access tokens like passwords.” This, similar to Twitter’s problematic favorite, creates confusing comparisons for a feature that does share some similarities with a password but has a more specific and unique purpose. Instead, the documentation should emphasize the importance of keeping the token secure and highlight the fun fact that though a username is required to enter when using the token, the token alone is used for authentication. 
 
 > concept PersonalAccessToken
->> purpose limit Github access to known users\
->> principle provided the user has an account, Github generate them a token that replaces the use of a password in a command line and API setting
+>> purpose limit Github programming access to known users\
+>> principle provided the user has an account, Github can generate them a token that replaces the use of a password in a command line and API setting
 
 > state
 >> a set of Users with 
@@ -103,18 +103,18 @@ A PersonalAccessToken is different in the sense that it is tailored to programme
 
 >> a set of Tokens with
 >>> a value String\
->>> an expiration date String\
+>>> an expiration String\
 >>> a scope [String]\
 >> a note String
 
 > actions
->> generate (user: User, a scope: [String], expiration date: String, note: String): (token: Token)
+>> generate (user: User, a scope: [String], expiration: String, note: String): (token: Token)
 >>> requires User must be logged in\
->>> effects creates a value for the token\
+>>> effects creates a value and adds the inputted settings for the token\
 
 >> authenticate (username: String, token: Token)\
->>> requires User must have an unexpired token
+>>> requires User must have an unexpired and valid token
 
 >> delete (user: User, token: Token): (user: User)\
->>> requires Token belongs to the User\
+>>> requires token belongs to the User\
 >>> effects removes token from User’s set of Tokens
