@@ -145,4 +145,36 @@ The act of searching takes place outside of the application, so it was not inclu
 
 #### Billable Hours Tracking
 
+> purpose keep track of hours spent working on a project for a client\
+> principle an employee can begin their session by selecting and inputting a description of what they’ll be working on. They can then end their session by marking it complete. The system keeps a record of the starting and ending times. 
+
+> state
+> a set of Sessions with 
+>> an employee User\
+>> a project String\
+>> a description String\
+>> a startTime String\
+>> an endTime String\
+>> a status String
+
+> actions
+>> start (employee: User, project: String, description: String, status: String): (session: Session)
+>>> require there is not currently another active session and that the selected project is a valid one\
+>>> effects creates an active status session with the current timestamp startTime
+
+>> cancel (employee: User): (session: Session)
+>>> require there is an active session\
+>>> effects removes session from view without keeping track of its duration, marks status as cancelled
+
+>> end (employee: User): (session: Session)
+>>> require there is an active session\
+>>> effects ends session with the current timestamp endTime, marks it as complete
+
+>> autoEnd (user: User): (session : Session)
+>>> require a session has gone more than 8 hours as active\
+>>> effects ends session with the current timestamp endTime, marks it as complete
+
+I selected 8 hours as that is the duration of a typical workday since in majority of cases if a user forgets to end a work session, it is due to them having spent the day with them and forgetting to clock out before leaving work.  
+
+
 #### Conference Room Booking
