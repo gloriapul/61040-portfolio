@@ -12,7 +12,7 @@ One invariant would be that the amount of an Item attempting to be bought in a P
 Another invariant would be that every Purchase being made must correspond to a Request with the same Item in the same Registry. The action whose design is most affected by this invariant would also be purchase. This action preserves the invariant by confirming the Registry’s existence and ensures that the Item attempting to be purchased does exist within the Registry. By doing so, it prevents any issues with purchases being made for Items that are not in any Request of the Registry. It also allows accurate linking between a Purchase and Request when it comes to the Item’s count. This invariant could be considered more important than the previous one as it keeps the entire system of having a Registry in check. Without this condition, items that were not requested could be purchased in large quantities while ones that were requested could be neglected. There could be a set of Purchases that may not correspond to any of the set of Requests. This would damage the ability to maintain a count of items purchased and would defeat the entire purpose of having a Registry. 
 
 ### 2. Can you identify an action that potentially breaks this important invariant, and say how this might happen? How might this problem be fixed?
-An action that could potentially break the important invariant would be removeItem. A situation where it could be broken is if an item that was being requested is removed but has already been purchased by others. By doing this, it means there would be a set of Purchases that do not correspond to any Requests, which breaks the invariant and is problematic for the purpose of having a Registry. This problem can be fixed by adding in more to the required aspect of the action, which is that the item cannot be removed after there exists a Purchase for it. In this setup, the user would have to accept the initial amount they provided for how much they wanted of the Item in order to assist in preserving the invariant and basic purpose of their Registry. 
+An action that could potentially break the important invariant would be removeItem. A situation where it could be broken is if an item that was being requested is removed but has already been purchased by others. By doing this, it means there would be a set of Purchases that do not correspond to any Requests, which breaks the invariant and is problematic for the purpose of having a Registry. This problem can be fixed by adding in more to the required aspect of the action, which is that the item cannot be removed after there exists a Purchase for it. In this setup, the user would have to accept the initial amount they provided for how much they wanted of the Item in order to assist in preserving the invariant and basic purpose of their Registry. It may also be worth adding in an action that pauses an item or allows for editing the count rather than removing it in order to maintain that record of the Purchases. 
 
 ### 3. The operational principle describes the typical scenario in which the registry is opened and eventually closed. But a concept specification often allows other scenarios. By reading the specs of the concept actions, say whether a registry can be opened and closed repeatedly. What is a reason to allow this?
 By reading the species of the concept actions, specifically open and close, the registry can be opened and closed repeatedly. A reason to allow that ability is that a user may find that they have to delay or temporarily cancel the event they are receiving gifts for, which means they would not want to receive purchases in the meantime. They can then easily reopen the registry to avoid having to start over for the same event. 
@@ -26,27 +26,27 @@ One query executed by a registry owner would be checking which items have been p
 Another common query executed by the giver of a gift would be to check which items are still left to be able to purchase. The point of a registry is to give requested items and if some requests have already been fulfilled, a person would want to find one that has not been fulfilled yet.
 
 ### 6. A common feature of gift registries is to allow the recipient to choose not to see purchases so that an element of surprise is retained. How would you augment the concept specification to support this?
-One could augment the concept specification with the state by adding a purchase visibility flag to the Registry. The updated state for the Registry itself would be:
+One could augment the concept specification with the state by adding a surprise purchases visibility flag to the Registry. The updated state for the Registry itself would be:
 
 > a set of Registries with
 >> an owner User\
 >> an active Flag\
 > a set of Requests\
->> a purchase visibility Toggle 
+>> a surprise purchases visibility Toggle 
      
-Then, there would be corresponding actions for it, the same as the open and close actions that work for the Flag. 
+Then, there would be corresponding actions for it, the same as the open and close actions that work for the Flag. Additionally, the create action should set the Toggle as false on default. 
 
-> on (registry: Registry)
->> requires registry exists and it is not off\
->> effects make registry’s purchase invisible to owner User
+> hide (owner: User, registry: Registry)
+>> requires registry exists and belongs to owner\
+>> effects make registry’s purchases invisible to owner User
 
-> off (registry: Registry)
+> reveal (owner: User, registry: Registry)
 >> requires registry exists and it is on\
->> effects make registry visible to owner User
+>> effects make registry's purchases visible to owner User
 
 ### 7. The User and Item types are specified as generic parameters. The Item type might be populated by SKU codes, for example. Explain why this is preferable to representing items with their names, descriptions, prices, etc.
 
-It is far preferable to using names, descriptions, prices, or another element since it ensures the right Item is being requested. For instance, the owner User may be requesting diapers for a baby shower but may have a specific brand, material, or color they want them in. Though the User could input the name or description to a structured element, it adds an extra layer of work for both the User and those looking to purchase. This removes the burden on the ones looking to make the purchase to figure out where to buy the Item from. Instead, the User can select their Item specifically, which would be populated by SKU codes that are unique and will directly point to the exact Item they are looking for. 
+It is far preferable to using names, descriptions, prices, or another element since it ensures the right Item is being requested. For instance, the owner User may be requesting diapers for a baby shower but may have a specific brand, material, or color they want them in. Though the User could input the name or description to a structured element, it adds an extra layer of work for both the User and those looking to purchase. Instead, the User can select their Item specifically, which would be populated by SKU codes that are unique and will directly point to the exact Item they are looking for. This removes a burden on both sides. 
 
 ## Exercise 2
 
