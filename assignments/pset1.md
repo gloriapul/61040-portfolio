@@ -71,18 +71,19 @@ The essential invariant would be that there must be at most one user with a give
 >> A username String\
 >> A password String\
 >> An email String\
->> A confirmation flag Boolean
+>> A confirmed flag Boolean\
+>> A token String
 
-> register (username: String, password: String, email: String, flag: Boolean): (user: User, token: String)
+> register (username: String, password: String, email: String, confirmed: Boolean): (user: User, token: String)
 >> requires the username and email to not already exist
->> effects create a new username w/ the corresponding password and sets confirmation Flag to false, sends a token
+>> effects creates a new username with the corresponding password and sets confirmed to false, sends a token
 
 > authenticate (username: String, password: String): (user: User)
 >> requires username to exist and for password to correspond to it
 
 > confirm (username: String, token: String)
->> requires the username and email to exist, as well as for the confirmation link or code the user received via email to be clicked on
->> effects the confirmation Flag is set to true
+>> requires the username and email to exist, as well as for the confirmation token the user received via email to be valid
+>> effects confirmed is set to true
 
 ## Exercise 3
 
