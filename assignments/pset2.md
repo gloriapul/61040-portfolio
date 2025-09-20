@@ -1,5 +1,6 @@
 # Problem Set 2
 Gloria Pulido
+
 [ReadMe](../README.md)
 
 ## Exercise 1
@@ -28,3 +29,16 @@ To modify the NonceGeneration concept, one would:
 >> require the word/phrase is not in the used set of Strings and the word(s) are in the dictionary\
 >> effect returns a nonce that is not already used by this context
 
+## Exercise 2
+
+### 1. In the first sync (called generate), the Request.shortenUrl action in the when clause includes the shortUrlBase argument but not the targetUrl argument. In the second sync (called register) both appear. Why is this?
+
+This is due to the fact that the generate is just for generating alone. Even if the targetUrl is not provided, it should still be able to generate a nonce for a shortenUrl. The register is what takes care of creating the mapping between the shortened url and the target url. It creates a proper separation between the syncs and breaks down each step. 
+
+### 2. The convention that allows names to be omitted when argument or result names are the same as their variable names is convenient and allows for a more succinct specification. Why isn’t this convention used in every case?
+
+### 3. Why is the request action included in the first two syncs but not the third one?
+
+### 4. Suppose the application did not support alternative domain names, and always used a fixed one such as “bit.ly.” How would you change the synchronizations to implement this?
+
+### 5. These synchronizations are not complete; in particular, they don’t do anything when a resource expires. Write a sync for this case, using appropriate actions from the ExpiringResource and URLShortening concepts.
