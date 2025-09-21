@@ -69,3 +69,40 @@ The sync below takes into account the available actions. It reflects the fact th
 >> when ExpiringResource.expireResource() : (resource: shortUrl)\
 >> then UrlShortening.delete(shortUrl)
 
+## Exercise 3
+
+### 1. Design a couple of additional concepts to realize this extension, and write them out in full (but including only the essential actions and state). It should not be necessary to make any changes to the existing concepts.
+
+These two concepts assume the concept of creating an account for the site is already assumed to exist. 
+
+> concept URLAnalytics [ShortUrl]\
+> purpose track success, measured by how many times it has been accessed, of a shortened url\
+> principle every time a shortened url has been accessed, the recorded counter goes up by one\
+> state
+>> a\
+>> a 
+> actions
+>>\
+>>> effect 
+
+> concept UserAccess [ShortUrl, User]\
+> purpose ensure access to a shortened url's analytics is restricted to the user who requested the creation of the shortened url\
+> principle only the user who created a short URL may view its analytics\
+> state
+>> a\
+>> a 
+> actions
+>>\
+>>> effect 
+
+### 2. Specify three essential synchronizations with your new concepts: one that happens when shortenings are created; one when shortenings are translated to targets; and one when a user examines analytics.
+### 3. As a way to assess the modularity of your solution, consider each of the following feature requests, to be included along with analytics. For each one, outline how it might be realized (eg, by changing or adding a concept or a sync), or argue that the feature would be undesirable and should not be included:
+- ### Allowing users to choose their own short URLs;
+- ### Using the “word as nonce” strategy to generate more memorable short URLs;
+- ### Including the target URL in analytics, so that lookups of different short URLs can be grouped together when they refer to the same target URL;
+- ### Generate short URLs that are not easily guessed;
+
+This request covers a feature that is far too subjective. The best that could be done would be having the site generate random combinations of letters, numbers, and other symbols rather than generating full words in phrases, which is already done. It is also an unreasonable request in the context of what the point of the url shortener is. Users want people to access their target url, which is why they have shortened it. They would want to ensure it is easy to remember so that others can easily type it in. 
+- ### Supporting reporting of analytics to creators of short URLs who have not registered as user.
+
+This feature should not be included since if a user is truly invested in how their shortened url is doing, they would make an account. In most cases, users are making these urls for a short one-time use and would not check how a url such as that would be doing. Those that are invested are likely users that have large events or are creating these urls as part of their job, which means they would want to have an account regardless. 
