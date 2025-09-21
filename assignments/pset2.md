@@ -33,12 +33,32 @@ To modify the NonceGeneration concept, one would:
 
 ### 1. In the first sync (called generate), the Request.shortenUrl action in the when clause includes the shortUrlBase argument but not the targetUrl argument. In the second sync (called register) both appear. Why is this?
 
-This is due to the fact that the generate is just for generating alone. Even if the targetUrl is not provided, it should still be able to generate a nonce for a shortenUrl. The register is what takes care of creating the mapping between the shortened url and the target url. It creates a proper separation between the syncs and breaks down each step. 
+This is due to the fact that the generate is just for generating alone. Even if the targetUrl is not provided or taken in yet, it should still be able to generate a nonce for a shortenUrl. The register is what takes care of creating the mapping between the shortened url and the target url. A shortened url cannot be registered if the url it is meant to act as an alias for is not provided. Overall, this helps with creating a proper separation between the syncs and breaks down each step by having generate, register, and setExpiry. 
 
 ### 2. The convention that allows names to be omitted when argument or result names are the same as their variable names is convenient and allows for a more succinct specification. Why isn’t this convention used in every case?
 
+Though it can be more succinct, it can increase confusion in certain cases, which is why the convention is not always used. For example, it can be seen that with setExpiry, it has both when ... shortUrl and then ... resource: shortUrl. In the first case, it was convenient to just have shortUrl as that is the result being received from the register sync. Meanwhile, the third line uses resource: shortUrl. resource is used as it provides more clarity as to what setExpiry sets out to do. It emphasizes what role shortUrl has, which is to act as a resource. It also highlights the fact that setExpiry is general and can have a variety of types of resources and in the case of the URL shortening, takes in the shortUrl from register. So, the convention is not always used as it can take away the opportunity, like if setExpiry hadn't specified resource, to make the sync or concept more broad and clear. 
+
 ### 3. Why is the request action included in the first two syncs but not the third one?
 
+The request is included in the first two syncs since they are a direct result of a user making a request. A user can choose to have a nonce generated and will choose to have that nonce registered in order to get their shortened url. On the other hand, the user themself cannot request to set an expiration date. That is handled on the application's end as it automatically sets the expiration to be in 3,600 seconds. It would be bad practice to let the user request's trigger a sync that they do not have any control over. It only makes sense for the setExpiry to include register as that it means the user's request has gone through and now can have an expiration set on its newly created url. 
+
 ### 4. Suppose the application did not support alternative domain names, and always used a fixed one such as “bit.ly.” How would you change the synchronizations to implement this?
+
+If it were just a fixed a fixed one like “bit.ly”, it would simplify the synchronizations. The user would no longer have to provide a shortUrlBase and it would default to “bit.ly.”
+
+> sync generate
+>> when Request.shortenUrl ()\
+>> then NonceGeneration.generate (context: “bit.ly”)
+
+> sync register
+>> when\
+>> Request.shortenUrl (targetUrl)\
+>> NonceGeneration.generate (): (nonce)\
+>> then UrlShortening.register (shortUrlSuffix: nonce, shortUrlBase: “bit.ly”, targetUrl)
+
+> sync setExpiry
+>> when UrlShortening.register (): (shortUrl)\
+>> then ExpiringResource.setExpiry (resource: shortUrl, seconds: 3600)
 
 ### 5. These synchronizations are not complete; in particular, they don’t do anything when a resource expires. Write a sync for this case, using appropriate actions from the ExpiringResource and URLShortening concepts.
