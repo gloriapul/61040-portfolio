@@ -62,3 +62,10 @@ If it were just a fixed a fixed one like “bit.ly”, it would simplify the syn
 >> then ExpiringResource.setExpiry (resource: shortUrl, seconds: 3600)
 
 ### 5. These synchronizations are not complete; in particular, they don’t do anything when a resource expires. Write a sync for this case, using appropriate actions from the ExpiringResource and URLShortening concepts.
+
+The sync below takes into account the available actions. It reflects the fact that the shortened url would be deleted once it has expired. 
+
+> sync setExpiredDelete
+>> when ExpiringResource.expireResource() : (resource: shortUrl)\
+>> then UrlShortening.delete(shortUrl)
+
