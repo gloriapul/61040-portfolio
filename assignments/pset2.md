@@ -83,18 +83,20 @@ These two concepts assume the concept of creating an account for the site is alr
 >> a count Number
 >> a shortUrl String
 > actions
->>\
->>> effect 
+>> setCount (shortUrl: String)
+>>> effect increases the count for the associated shortUrl by 1. if counter does not exist, sets the count to 0. 
 
 > concept UserAccess [ShortUrl, User]\
 > purpose ensure access to a shortened url's analytics is restricted to the user who requested the creation of the shortened url\
 > principle only the user who created a short URL may view its analytics\
 > state
->> a\
->> a 
+>> a set of Users with\
+>> a username String\
+>> a set of ShortUrls\
 > actions
->>\
->>> effect 
+>> addShortUrl(username: String, shortUrl: String): (shortUrls: set of Strings)\
+>>> require the username and shortUrl must exist\
+>>> effect adds the url to the set of shortUrls for the user
 
 ### 2. Specify three essential synchronizations with your new concepts: one that happens when shortenings are created; one when shortenings are translated to targets; and one when a user examines analytics.
 ### 3. As a way to assess the modularity of your solution, consider each of the following feature requests, to be included along with analytics. For each one, outline how it might be realized (eg, by changing or adding a concept or a sync), or argue that the feature would be undesirable and should not be included:
