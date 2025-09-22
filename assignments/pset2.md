@@ -77,10 +77,11 @@ These two concepts assume the concept of creating an account for the site is alr
 
 > concept URLAnalytics [ShortUrl]\
 > purpose track success, measured by how many times it has been accessed, of a shortened url\
-> principle every time a shortened url has been accessed, the recorded counter goes up by one\
+> principle every time a shortened url has been accessed, the recorded count goes up by one\
 > state
->> a\
->> a 
+>> a set of Counters with\
+>> a count Number
+>> a shortUrl String
 > actions
 >>\
 >>> effect 
