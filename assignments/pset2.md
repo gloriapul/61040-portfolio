@@ -80,11 +80,14 @@ These two concepts assume the concept of creating an account for the site is alr
 > principle every time a shortened url has been accessed, the recorded count goes up by one\
 > state
 >> a set of Counters with\
->> a count Number
+>> an associated count Number
 >> a shortUrl String
 > actions
->> setCount (shortUrl: String)
->>> effect increases the count for the associated shortUrl by 1. if counter does not exist, sets the count to 0. 
+>> increaseCount (shortUrl: String)
+>>> effect increases the count for the associated shortUrl by 1. if counter does not exist yet, sets the count to 1
+>> getAnalytics (shortUrl: String): (count: Number)
+>>> requires the shortUrl exists
+>>> effect returns the access count for the shortUrl
 
 > concept UserAccess [ShortUrl, User]\
 > purpose ensure access to a shortened url's analytics is restricted to the user who requested the creation of the shortened url\
@@ -95,12 +98,44 @@ These two concepts assume the concept of creating an account for the site is alr
 >> a set of ShortUrls\
 > actions
 >> addShortUrl(username: String, shortUrl: String): (shortUrls: set of Strings)\
->>> require the username and shortUrl must exist\
->>> effect adds the url to the set of shortUrls for the user
+>>> require the username and shortUrl must exist, shortUrl must not already be associated with another user\
+>>> effect adds the url to the set of shortUrls for the user\
+>> getOwnedUrls(username: String): (shortUrls: set of Strings)
+>>> requires the username exists
+>>> effect returns the set of shortUrls associated with the username
 
 ### 2. Specify three essential synchronizations with your new concepts: one that happens when shortenings are created; one when shortenings are translated to targets; and one when a user examines analytics.
+> sync registerAnalytics
+>> when
+>>> UrlShortening.register (): (shortUrl)\
+>>> Request.shortenUrl (username)\
+>> then\
+>>> URLAnalytics.increaseCount (shortUrl)
+>>> UserAccess.addShortUrl (username, shortUrl)
+
+> sync recordAccess
+>> when
+>>> UrlShortening.lookup (shortUrl)\
+>> then\
+>>> URLAnalytics.increaseCount (shortUrl)
+    
+> sync getAnalytics
+>> when
+>>> Request.getAnalytics (shortUrl)\
+>>> UserAccess.getOwnedUrls (username) contains shortUrl\
+>> then\
+>>> URLAnalytics.getAnalytics (shortUrls)
+
 ### 3. As a way to assess the modularity of your solution, consider each of the following feature requests, to be included along with analytics. For each one, outline how it might be realized (eg, by changing or adding a concept or a sync), or argue that the feature would be undesirable and should not be included:
 - ### Allowing users to choose their own short URLs;
+
+An edited sync, similar to how NonceGeneration was included, can support this. It would be the same functionality essentially as if it were NonceGeneration.
+> sync registerCustom\
+> when Request.shortenUrl (username, shortUrl, targetUrl)\
+> then
+>> UrlShortening.register (shortUrl, targetUrl)
+
+
 - ### Using the “word as nonce” strategy to generate more memorable short URLs;
 - ### Including the target URL in analytics, so that lookups of different short URLs can be grouped together when they refer to the same target URL;
 - ### Generate short URLs that are not easily guessed;
