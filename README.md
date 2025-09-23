@@ -5,12 +5,16 @@ My name is Gloria Pulido, I'm a senior and a computer science major, nice to mee
 
 
 # Table of Contents
+
+## Assignments
 [Assignment 1](assignments/assignment1.md)
 
+[Assignment 2](assignments/assignment2.md)
+
+## Problem Sets
 [Problem Set 1](assignments/pset1.md)
 
 [Problem Set 2](assignments/pset2.md)
 
-[Assignment 2](assignments/assignment2.md)
 
 
