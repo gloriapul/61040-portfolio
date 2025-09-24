@@ -110,7 +110,7 @@ These two concepts assume the concept of creating an account for the site is alr
 > sync registerAnalytics
 >> when
 >>> PasswordAuthentication.authenticate(username, password) and\
->>> UrlShortening.register(shortUrlSuffix, shortUrlBase, targetUrl)\
+>>> UrlShortening.register(shortUrlSuffix, shortUrlBase, targetUrl): (shortUrl)\
 >> then\
 >>> UserAccess.addShortUrl(username, shortUrl)\
 
@@ -120,7 +120,7 @@ These two concepts assume the concept of creating an account for the site is alr
 >> then\
 >>> URLAnalytics.increaseCount(shortUrl)
     
-> sync getAnalytics
+> sync searchAnalytics
 >> when
 >>> Request.getAnalytics(shortUrl) and\
 >>> UserAccess.getOwnedUrls(username) contains shortUrl\
@@ -130,18 +130,20 @@ These two concepts assume the concept of creating an account for the site is alr
 ### 3. As a way to assess the modularity of your solution, consider each of the following feature requests, to be included along with analytics. For each one, outline how it might be realized (eg, by changing or adding a concept or a sync), or argue that the feature would be undesirable and should not be included:
 - ### Allowing users to choose their own short URLs;
 
-An edited sync, similar to how NonceGeneration was included, can support this. It would be the same functionality essentially as if it were NonceGeneration.
-> sync registerCustom\
-> when Request.shortenUrl (username, shortUrl, targetUrl)\
-> then
->> UrlShortening.register (shortUrl, targetUrl)
-
+This feature would be very relevant for a URL shortening app and is already supported in those kinds of apps. The current concept of URLShortening already supports this as it has a parameter shortUrlSuffix in its register action. It would just require that within the register sync, it checks if the shortUrlSuffix is coming from the user or was produced from the generate sync, rather than automatically defaulting to the nonce from NonceGeneration. It would also mean having to edit the generate sync so that it does not get triggered each time the user makes their Request with a shortUrlBase. These changes would allow this feature to be carried out. 
 
 - ### Using the “word as nonce” strategy to generate more memorable short URLs;
+  
+This change is also a desirable feature based on a user's needs, as it has an advantage as discussed in the first exercise. Number #3 in exercise 1 covers what the NonceGeneration concept could look like if it supported this strategy. All together though, it would be important to break it down if the original strategy of randomized strings is still being kept. Then, the generate sync would also have to be edited to account for that. Then, the shortUrlSuffix: nonce in the register sync would also just be edited with the naming. 
+
 - ### Including the target URL in analytics, so that lookups of different short URLs can be grouped together when they refer to the same target URL;
+
+This feature could be desirable for many users. It would be crucial to keep it limited so that users can only see the short URLs that they made rather than being able to see all short URLs made by anyone for a particular target URL. This change could be supported by expanding the URLAnalytics to have two separate actions, the regular getAnalytics, which would have to be be renamed getShortURLAnalytics, and getTargetURLAnalytics. The getTargetURLAnalytics action would be built accordingly to support searching for the target URL, which would return the shortURL(s) and their counts added up. 
+
 - ### Generate short URLs that are not easily guessed;
 
-This request covers a feature that is far too subjective. The best that could be done would be having the site generate random combinations of letters, numbers, and other symbols rather than generating full words in phrases, which is already done. It is also an unreasonable request in the context of what the point of the url shortener is. Users want people to access their target url, which is why they have shortened it. They would want to ensure it is easy to remember so that others can easily type it in. 
+This request covers a feature that is far too subjective. The best that could be done would be having the site generate random combinations of letters, numbers, and other symbols rather than generating full words in phrases, which is already done. It is also an unreasonable request in the context of what the point of the url shortener is. Users want people to access their target url, which is why they have shortened it. They would want to ensure it is relatively easy to remember so that others can type it in.
+
 - ### Supporting reporting of analytics to creators of short URLs who have not registered as user.
 
-This feature should not be included since if a user is truly invested in how their shortened url is doing, they would make an account. In most cases, users are making these urls for a short one-time use and would not check how a url such as that would be doing. Those that are invested are likely users that have large events or are creating these urls as part of their job, which means they would want to have an account regardless. 
+This feature should not be included since if a user is truly invested in how their shortened url is doing, they would make an account. In most cases, users are making these urls for a short one-time use and would not check how a url such as that would be doing. Those that are invested are likely users that have large events or are creating these urls as part of their job, which means they would want to have an account regardless. Requiring an account also means increased continued interaction with the site. If it were the case where this feature would supported, one would just have to find another way to connect the user and their shortUrl, which could mean another kind of ID. 
