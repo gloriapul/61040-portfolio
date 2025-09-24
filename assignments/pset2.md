@@ -7,7 +7,7 @@ Gloria Pulido
 
 ### 1. The NonceGeneration concept ensures that the short strings it generates will be unique and not result in conflicts. What are the contexts for, and what will a context end up being in the URL shortening app?
 
-The contexts allow for consideration of the reasoning behind why a nonce is being generated. For example, generating a nonce for the need of getting a personal access token in Github versus needing one for a URL are two very different purposes and if there were overlap where something such as 'abcdefg' were both a token string and the suffix for a shortened URL, it would be acceptable. It would be in the case where if two 'abcdefg' tokens and two 'abcdefg' shortened URLs on TinyUrl were generated where problems would arise. The NonceGeneration concept has its purpose of generating short unique strings and has different contexts where even if two of the same nonces were generated, no conflicts would arise as long as they were in different contexts. The contexts add that differentiation to ensure that within the set of Strings for a specific Context, they are unique and do not result in conflicts. Within a URL shortening app, the Context would end up being the prefix in the URL. For example, using TinyUrl versus Bitly would be two different contexts. Though something such as tinyurl.com/abcdefg and bit.ly/abcdefg would have the same 'abcdefg' nonce generated, they have two different base URLs, which makes them different contexts and allows for them to have that overlap. Unless a user went ahead to make both these shortened URLs using the generated nonce to point them to the same URL, these two URLs would lead to different longer URLs. 
+The contexts allow for consideration of the reasoning behind why a nonce is being generated. For example, generating a nonce for the need of getting a personal access token in Github versus needing one for a URL are two very different purposes and if there were overlap where something such as 'abcdefg' were both a token string and the suffix for a shortened URL, it would be acceptable. It would be in the case where if two 'abcdefg' tokens and two 'abcdefg' shortened URLs on TinyUrl were generated where problems would arise. The NonceGeneration concept has its purpose of generating short unique strings and has different contexts where even if two of the same nonces were generated, no conflicts would arise as long as they were in different contexts. The contexts add that differentiation to ensure that within the set of Strings for a specific Context, they are unique and do not result in conflicts. Within a URL shortening app, the Context would end up being the prefix in the URL. For example, using TinyUrl versus Bitly would be two different contexts. Though something such as tinyurl.com/abcdefg and bit.ly/abcdefg would have the same 'abcdefg' nonce generated, they have two different base URLs, which makes them different contexts and allows for them to have that overlap. Unless a user went ahead to make both these shortened URLs using the generated nonce point to the same URL, these two URLs would lead to different longer URLs. 
 
 ### 2. Why must the NonceGeneration store sets of used strings? One simple way to implement the NonceGeneration is to maintain a counter for each context and increment it every time the generate action is called. In this case, how is the set of used strings in the specification related to the counter in the implementation? (In abstract data type lingo, this is asking you to describe an abstraction function.)
 
@@ -26,7 +26,7 @@ To modify the NonceGeneration concept, one would:
 - Add to the generate actions ->
 
 > generate (context: Context) : (nonce: String)
->> require the word/phrase is not in the used set of Strings and the word(s) are in the dictionary\
+>> require the word/phrase does not already exist in the used set of Strings and the word(s) are in the dictionary\
 >> effect returns a nonce that is not already used by this context
 
 ## Exercise 2
@@ -83,11 +83,12 @@ These two concepts assume the concept of creating an account for the site is alr
 >> an associated count Number\
 >> a shortUrl String\
 > actions
+
 >> increaseCount (shortUrl: String)
->>> effect increases the count for the associated shortUrl by 1. if counter does not exist yet, sets the count to 1\
+>>> effect increases the count for the associated shortUrl by 1. if counter does not exist yet, sets the count to 1
 
 >> getAnalytics (shortUrl: String): (count: Number)
->>> requires the shortUrl exists
+>>> requires the shortUrl exists\
 >>> effect returns the access count for the shortUrl
 
 > concept UserAccess\
@@ -98,6 +99,7 @@ These two concepts assume the concept of creating an account for the site is alr
 >> a username String\
 >> a set of ShortUrls\
 > actions
+
 >> addShortUrl(username: String, shortUrl: String): (shortUrls: set of Strings)\
 >>> require the username and shortUrl must exist, shortUrl must not already be associated with another user\
 >>> effect adds the url to the set of shortUrls for the user
@@ -130,7 +132,7 @@ These two concepts assume the concept of creating an account for the site is alr
 ### 3. As a way to assess the modularity of your solution, consider each of the following feature requests, to be included along with analytics. For each one, outline how it might be realized (eg, by changing or adding a concept or a sync), or argue that the feature would be undesirable and should not be included:
 - ### Allowing users to choose their own short URLs;
 
-This feature would be very relevant for a URL shortening app and is already supported in those kinds of apps. The current concept of URLShortening already supports this as it has a parameter shortUrlSuffix in its register action. It would just require that within the register sync, it checks if the shortUrlSuffix is coming from the user or was produced from the generate sync, rather than automatically defaulting to the nonce from NonceGeneration. It would also mean having to edit the generate sync so that it does not get triggered each time the user makes their Request with a shortUrlBase. These changes would allow this feature to be carried out. 
+This feature would be very relevant for a URL shortening app and is already supported in those kinds of apps. The current concept of URLShortening already supports this as it has a parameter shortUrlSuffix in its register action. It would just require that within the register sync, it checks if the shortUrlSuffix is coming from the user or was produced from the generate sync, rather than automatically defaulting to the nonce from NonceGeneration. It would also mean having to edit the generate sync so that it does not get triggered each time the user makes any Request with a shortUrlBase, allowing for there to be space for the fact that the user may be providing their own suffix. These changes would allow this feature to be carried out. 
 
 - ### Using the “word as nonce” strategy to generate more memorable short URLs;
   
@@ -142,7 +144,7 @@ This feature could be desirable for many users. It would be crucial to keep it l
 
 - ### Generate short URLs that are not easily guessed;
 
-This request covers a feature that is far too subjective. The best that could be done would be having the site generate random combinations of letters, numbers, and other symbols rather than generating full words in phrases, which is already done. It is also an unreasonable request in the context of what the point of the url shortener is. Users want people to access their target url, which is why they have shortened it. They would want to ensure it is relatively easy to remember so that others can type it in.
+This request covers a feature that is too subjective. The best that could be done would be having the site generate random combinations of letters, numbers, and other symbols rather than generating full words in phrases, which is already done. It is also an unreasonable request in the context of what the point of the url shortener is. Users want people to access their target url, which is why they have shortened it. They would want to ensure it is relatively easy to remember so that others can type it in.
 
 - ### Supporting reporting of analytics to creators of short URLs who have not registered as user.
 
