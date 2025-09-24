@@ -73,7 +73,7 @@ The sync below takes into account the available actions. It reflects the fact th
 
 ### 1. Design a couple of additional concepts to realize this extension, and write them out in full (but including only the essential actions and state). It should not be necessary to make any changes to the existing concepts.
 
-These two concepts assume the concept of creating an account for the site is already assumed to exist. An account related concept was created in Problem Set 1. 
+These two concepts assume the concept of creating an account for the site is already assumed to exist. A password authentication concept was expanded upon in [Problem Set 1](pset1.md). 
 
 > concept URLAnalytics\
 > purpose measure how many times a shortened url has been accessed\
@@ -109,24 +109,23 @@ These two concepts assume the concept of creating an account for the site is alr
 ### 2. Specify three essential synchronizations with your new concepts: one that happens when shortenings are created; one when shortenings are translated to targets; and one when a user examines analytics.
 > sync registerAnalytics
 >> when
+>>> PasswordAuthentication.authenticate(username, password) and\
 >>> UrlShortening.register(shortUrlSuffix, shortUrlBase, targetUrl)\
->>> Request.shortenUrl(username)\
 >> then\
->>> URLAnalytics.increaseCount(shortUrl)
->>> UserAccess.addShortUrl(username, shortUrl)
+>>> UserAccess.addShortUrl(username, shortUrl)\
 
 > sync recordAccess
 >> when
->>> UrlShortening.lookup (shortUrl)\
+>>> UrlShortening.lookup(shortUrl)\
 >> then\
->>> URLAnalytics.increaseCount (shortUrl)
+>>> URLAnalytics.increaseCount(shortUrl)
     
 > sync getAnalytics
 >> when
->>> Request.getAnalytics (shortUrl)\
->>> UserAccess.getOwnedUrls (username) contains shortUrl\
+>>> Request.getAnalytics(shortUrl) and\
+>>> UserAccess.getOwnedUrls(username) contains shortUrl\
 >> then\
->>> URLAnalytics.getAnalytics (shortUrls)
+>>> URLAnalytics.getAnalytics(shortUrl)
 
 ### 3. As a way to assess the modularity of your solution, consider each of the following feature requests, to be included along with analytics. For each one, outline how it might be realized (eg, by changing or adding a concept or a sync), or argue that the feature would be undesirable and should not be included:
 - ### Allowing users to choose their own short URLs;
