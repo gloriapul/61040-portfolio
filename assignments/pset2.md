@@ -73,23 +73,24 @@ The sync below takes into account the available actions. It reflects the fact th
 
 ### 1. Design a couple of additional concepts to realize this extension, and write them out in full (but including only the essential actions and state). It should not be necessary to make any changes to the existing concepts.
 
-These two concepts assume the concept of creating an account for the site is already assumed to exist. 
+These two concepts assume the concept of creating an account for the site is already assumed to exist. An account related concept was created in Problem Set 1. 
 
-> concept URLAnalytics [ShortUrl]\
-> purpose track success, measured by how many times it has been accessed, of a shortened url\
+> concept URLAnalytics\
+> purpose measure how many times a shortened url has been accessed\
 > principle every time a shortened url has been accessed, the recorded count goes up by one\
 > state
 >> a set of Counters with\
->> an associated count Number
->> a shortUrl String
+>> an associated count Number\
+>> a shortUrl String\
 > actions
 >> increaseCount (shortUrl: String)
->>> effect increases the count for the associated shortUrl by 1. if counter does not exist yet, sets the count to 1
+>>> effect increases the count for the associated shortUrl by 1. if counter does not exist yet, sets the count to 1\
+
 >> getAnalytics (shortUrl: String): (count: Number)
 >>> requires the shortUrl exists
 >>> effect returns the access count for the shortUrl
 
-> concept UserAccess [ShortUrl, User]\
+> concept UserAccess\
 > purpose ensure access to a shortened url's analytics is restricted to the user who requested the creation of the shortened url\
 > principle only the user who created a short URL may view its analytics\
 > state
@@ -99,19 +100,20 @@ These two concepts assume the concept of creating an account for the site is alr
 > actions
 >> addShortUrl(username: String, shortUrl: String): (shortUrls: set of Strings)\
 >>> require the username and shortUrl must exist, shortUrl must not already be associated with another user\
->>> effect adds the url to the set of shortUrls for the user\
+>>> effect adds the url to the set of shortUrls for the user
+
 >> getOwnedUrls(username: String): (shortUrls: set of Strings)
->>> requires the username exists
+>>> requires the username exists\
 >>> effect returns the set of shortUrls associated with the username
 
 ### 2. Specify three essential synchronizations with your new concepts: one that happens when shortenings are created; one when shortenings are translated to targets; and one when a user examines analytics.
 > sync registerAnalytics
 >> when
->>> UrlShortening.register (): (shortUrl)\
->>> Request.shortenUrl (username)\
+>>> UrlShortening.register(shortUrlSuffix, shortUrlBase, targetUrl)\
+>>> Request.shortenUrl(username)\
 >> then\
->>> URLAnalytics.increaseCount (shortUrl)
->>> UserAccess.addShortUrl (username, shortUrl)
+>>> URLAnalytics.increaseCount(shortUrl)
+>>> UserAccess.addShortUrl(username, shortUrl)
 
 > sync recordAccess
 >> when
