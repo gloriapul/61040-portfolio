@@ -40,9 +40,104 @@ This application is designed to target people who, for any reason, are unable to
 3. Hobby matchmaker quiz: As a way to target users who may not have an idea on what they are interested in yet, this quiz would match them, using AI for the results, to indicate which category is most appropriate for them. This feature would help users narrow down their focus and not lose themself in indecision, which is another way of approaching this problem. It would also benefit indirect stakeholders such as business owners who will benefit if these users are matched with more expensive hobbies. 
 
 ## Concept design
-### The concept specifications
-### Some essential synchronizations
-### A brief note
+
+### Concepts
+#### Concept 1
+> concept PasswordAuthentication\
+> purpose limit access to known users\
+> principle after a user registers with a username and a password,
+    they can authenticate with that same username and password
+    and be treated each time as the same user\
+> state
+> a set of Users with
+>> a username String\
+>> a password String
+> actions
+
+> register (username: String, password: String): (user: User)
+>> requires the username to not already exist\
+>> effects create a new username with the corresponding password
+
+> authenticate (username: String, password: String): (user: User)
+>> requires username to exist and for password to correspond to it
+
+#### Concept 2
+
+> concept UserProfile [User]\
+> purpose allow users to share their personal info\
+> principle after setting a name and image for a
+user, other users can see them \
+> state\
+>  set of User with
+>> a active status Boolean
+>> a displayname String\
+>> a profile Image\
+>> a set of Communities including\
+>>> the current community they are in\
+>>> past communities they have been part of
+>> a set of Hobbies including\
+>>> the current hobby they are working on\
+>>> past hobbies they have mastered or ended their work toward\
+>>> an activity status for each hobby String
+> actions\
+> setName (user: User, name: String)
+>> requires the user to exist\
+>> effects sets the user's name to the name they provide
+
+> setImage (user: User, image: Image)
+>> requires the user to exist\
+>> effects sets the user's profile image to the image they provide
+
+> setCommunity (user: User, communities: set of Communities, community: Community)
+>> requires the user to exist and to not already be in that community\
+>> effects sets the user's profile community to the community they provide
+
+> setHobby (user: User, hobbies: set of Hobbies, hobby: Hobby)
+>> requires the user to exist and to not be active\
+>> effects sets the user's current hobby to the hobby they provide and marks it as active\
+
+> closeHobby (user: User, hobbies: set of Hobbies, hobby: Hobby)
+>> requires the user to exist and for hobby to be active\
+>> effects sets the hobby to inactive
+
+> closeProfile (user: User)
+>> requires user to exist
+>> effects sets the user's account to inactive, which means closed
+
+
+#### Concept 3
+> concept Communities\
+> purpose allow users to connect with other users in a group\
+> principle after joining a group, users will be able to send messages to the users in the group\
+> state\
+>  set of Users with
+>> a displayname String\
+>> a profile Image
+> actions\
+> setName (user: User, name: String)
+>> requires the user to exist\
+>> effects sets the user's name to the name they provide
+
+> setImage (user: User, image: Image)
+>> requires the user to exist\
+>> effects sets the user's profile image to the image they provide
+
+#### Concept 4
+> concept Milestones [User]\
+> purpose allow users to see the progress that they are making toward their goals\
+> principle after a user inputs their goals, they will see a steps they are yet to complete and those that they have completed\
+
+#### Concept 5
+> concept Quiz\
+> purpose let users get matched with a potential hobby\
+> principle after registering and making their account, \
+
+** Cover how communities are made
+** reusability, history of communities
+** deleting account
+### Syncs
+
+### Brief note
 
 ## UI Sketches
 
