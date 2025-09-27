@@ -68,7 +68,7 @@ This application is designed to target people who, for any reason, are unable to
 > principle after setting a name and image for a
 user, other users can see them \
 > state\
->  set of User with
+>  set of Users with
 >> a active status Boolean
 >> a displayname String\
 >> a profile Image\
@@ -110,31 +110,75 @@ user, other users can see them \
 > purpose allow users to connect with other users in a group\
 > principle after joining a group, users will be able to send messages to the users in the group\
 > state\
->  set of Users with
->> a displayname String\
->> a profile Image
+> a set of UserProfiles
+> a set of messages Strings with
+>> a posted date Date\
+>> user who shared it String\
+>> a postID String
+>> a set of comments Strings with
+>> a commented date Date\
+>> user who shared it String\
+>> a postID String
 > actions\
-> setName (user: User, name: String)
->> requires the user to exist\
->> effects sets the user's name to the name they provide
+> join (user: UserProfile, community: String)
+>> requires the user to exist and for community to exist\
+>> effects adds user to list of users in community
 
-> setImage (user: User, image: Image)
->> requires the user to exist\
->> effects sets the user's profile image to the image they provide
+> leave (user: User, community: String)
+>> requires the user to be in the community\
+>> effects removes user from list of users in community
+
+> post (user: UserProfile, community: String)
+>> requires the user to be in the community\
+>> effects user's message gets added to set of messages in community
+
+> edit (user: UserProfile, post: String)
+>> requires the post to belong to the user\
+>> effects user's message reflects their new words
+
+> delete (user: UserProfile, community: String)
+>> requires the post to belong to the user\
+>> effects user's message gets deleted from set of messages in community
+
+> comment (user: UserProfile, comment: String, post: String, community: String)
+>> requires the user to be in the community\
+>> effects user's message gets added to thread of comments connected to a post, adds a new postID for comment
 
 #### Concept 4
 > concept Milestones [User]\
 > purpose allow users to see the progress that they are making toward their goals\
 > principle after a user inputs their goals, they will see a steps they are yet to complete and those that they have completed\
+> state\
+> a set of goals Strings\
+> a set of steps Strings with
+>> a completion Date\
+>> a description String\
+>> a start Date
+>> a status String
+> actions\
+> addGoals
+>> completeStep
+>> startStep
 
 #### Concept 5
 > concept Quiz\
 > purpose let users get matched with a potential hobby\
-> principle after registering and making their account, \
+> principle after registering, users can opt to take a quiz that matches them to a hobby \
+> state\
+> a set of questions Strings with
+> a answer String
+> a set of results String with
+> a match String
+> actions\
+> startQuiz
+> completeQuiz
 
-** Cover how communities are made
+** Cover how communities are made, preset already made rather than being made by users
 ** reusability, history of communities
 ** deleting account
+** user vs userprofile
+** set communities
+** quiz in sync for profile
 ### Syncs
 
 ### Brief note
