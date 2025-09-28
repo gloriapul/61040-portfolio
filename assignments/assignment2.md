@@ -10,7 +10,7 @@ When I consider my hobbies, I think a lot about how there are many that I have n
 
 ### A problem
 
-#### Encountering obstacles to mastering a hobby.
+#### Staying accountable to a hobby.
 People are always searching for something to do and wanting to grow, but most of those same people will also deal with challenges to holding themselves accountable and mastering something. It is something that I am personally interested in as well since I find that like most, once one obstacle comes up, motivation to continue goes down and it leads to a lot of projects being unfinished rather than remaining dedicated to them. 
 
 ### A stakeholder list
