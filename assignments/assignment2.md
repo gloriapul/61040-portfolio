@@ -194,6 +194,17 @@ In this app, all of these concepts come together to cover basic functionality an
 
 ## UI Sketches
 
+Home
+![Home page](HomePage.png)
+
+Milestone Tracker
+![Milestone page](MilestonePage.png)
+
+Community
+![Community page](Community.png)
+
+Profile
+![Profile page](Profile.png)
 
 
 ## User journey
