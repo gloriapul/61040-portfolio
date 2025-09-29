@@ -86,8 +86,8 @@ user, other users can see them \
 >> effects sets the user's profile image to the image they provide
 
 > setHobby (user: User, hobby: String)
->> requires the user to exist and for hobby to not already be active in set of hobbies\
->> effects adds the user's hobby to set of hobbies and marks it as active or just marks hobby from inactive to active\
+>> requires the user to exist and for hobby to not already be active in set of hobbies, hobby must also be part of preset list of available hobbies on app \
+>> effects adds the user's hobby that they entered or received as a result from a matching quiz to set of hobbies and marks it as active or just marks hobby from inactive to active\
 
 > closeHobby (user: User, hobby: String)
 >> requires the user to exist and for hobby to be active in set of hobbies\
@@ -115,11 +115,11 @@ user, other users can see them \
 >>> a postID String
 
 > actions\
-> join (user: User, community: String): (community: Community)
->> requires the user to exist and for community to exist in set of Communities\
+> addUser (user: User, community: String): (community: Community)
+>> requires the user to exist and for community to exist in set of available Communities\
 >> effects adds user to list of users in community
 
-> leave (user: User, community: String): (community: Community)
+> removeUser (user: User, community: String): (community: Community)
 >> requires the user to be in the set of Users in the community\
 >> effects removes user from set of users in the community
 
@@ -150,6 +150,7 @@ user, other users can see them \
 >> a start Date
 >> a completion Date\
 >> a status String
+>> an activity status Boolean
 > actions\
 > addGoal (goal: String): (goals: Strings)
 >> requires goal is not already in set of goals\
@@ -159,26 +160,34 @@ user, other users can see them \
 >> effects marks step as a status in process, records start date
 > completeStep (step: String): (steps: Strings)
 >> requires step has an in process status\
->> effects marks step as a status complete, records completion date
+>> effects marks step as a status complete, records completion date\
+>> if all steps are complete, mark Milestones as inactive
+> closeMilestones ()
+>> requires milestones to be active\
+>> effects marks Milestones as inactive
 
-#### Concept 5
-> concept Quiz\
-> purpose let users get matched with a hobby\
-> principle after registering, users can opt to take a quiz that matches them to a hobby \
-> state\
-> a set of questions Strings with
->> a answer String
+### Syncs
 
-> a result String
+sync profileCompletion
+> when PasswordAuthentication.authenticate(username, password)\
+> then
+>> UserProfile.setName(name)
+>> UserProfile.setImage(image)
+>> UserProfile.setHobby(hobby)
 
-> actions\
-> startQuiz (
-> completeQuiz
+sync communityAccess
+> UserProfile.setHobby(hobby)\
+> then
+>> Communities.addUser(User, community: hobby)
+
+sync hobbyEnding
+> UserProfile.closeHobby(hobby)\
+> then
+>> Milestones[hobby].closeMilestones()
 
 ** Cover how communities are made, preset already made rather than being made by users
 ** reusability, history of communities
-** quiz in sync for profile
-### Syncs
+at most half a page long, explaining the role that your concepts play in the context of the app as a whole. For example, if you have an authentication or authorization concept, you should say how it’s used to control access to other particular concepts. You should also explain how generic type parameters will be instantiated whenever it’s non obvious. (For example, that a generic user type will be bound to the users of an authentication concept is obvious; that the targeted items of an upvoting concept are users would not be.)
 
 ### Brief note
 
