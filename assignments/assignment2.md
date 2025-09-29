@@ -73,8 +73,8 @@ user, other users can see them \
 >> a displayname String\
 >> a profile Image
 
-> a set of Hobbies with
->> an active status Boolean
+>> a set of Hobbies with
+>>> an active status Boolean
 
 > actions\
 > setName (user: User, displayname: String)
@@ -87,7 +87,7 @@ user, other users can see them \
 
 > setHobby (user: User, hobby: String)
 >> requires the user to exist and for hobby to not already be active in set of hobbies, hobby must also be part of preset list of available hobbies on app \
->> effects adds the user's hobby that they entered or received as a result from a matching quiz to set of hobbies and marks it as active or just marks hobby from inactive to active\
+>> effects adds the user's hobby that they entered or received as a result from a matching quiz to set of hobbies and marks it as active or just marks hobby from inactive to active if already in set
 
 > closeHobby (user: User, hobby: String)
 >> requires the user to exist and for hobby to be active in set of hobbies\
@@ -151,6 +151,7 @@ user, other users can see them \
 >> a completion Date\
 >> a status String
 >> an activity status Boolean
+
 > actions\
 > addGoal (goal: String): (goals: Strings)
 >> requires goal is not already in set of goals\
@@ -166,7 +167,7 @@ user, other users can see them \
 >> if all steps are complete, mark Milestones as inactive
 
 > closeMilestones ()
->> requires milestones to be active\
+>> requires Milestones to be active\
 >> effects marks Milestones as inactive
 
 ### Syncs
@@ -174,8 +175,8 @@ user, other users can see them \
 sync profileCompletion
 > when PasswordAuthentication.authenticate(username, password)\
 > then
->> UserProfile.setName(name)
->> UserProfile.setImage(image)
+>> UserProfile.setName(name)\
+>> UserProfile.setImage(image)\
 >> UserProfile.setHobby(hobby)
 
 sync communityAccess
