@@ -65,43 +65,44 @@ This application is designed to target people who, for any reason, are unable to
 
 > concept UserProfile [User]\
 > purpose allow users to share their personal info\
-> principle after setting a name and image for a
+> principle after setting a name, hobby, and image for a
 user, other users can see them \
 > state\
->  set of Users with
->> a active status Boolean
+> set of User with
+>> an active status Boolean\
 >> a displayname String\
->> a profile Image\
->> a set of Communities including\
->>> the current community they are in\
->>> past communities they have been part of
->> a set of Hobbies including\
->>> the current hobby they are working on\
->>> past hobbies they have mastered or ended their work toward\
->>> an activity status for each hobby String
+>> a profile Image
+
+> a set of Hobbies with
+>> an active status Boolean
+
+> a set of Communities with
+>> an active status Boolean
+
 > actions\
-> setName (user: User, name: String)
->> requires the user to exist\
->> effects sets the user's name to the name they provide
+> setName (user: User, displayname: String)
+>> requires the user to exist in set of users\
+>> effects sets the user's display name to the displayname they provide
 
 > setImage (user: User, image: Image)
->> requires the user to exist\
+>> requires the user to exist in set of users\
 >> effects sets the user's profile image to the image they provide
 
-> setCommunity (user: User, communities: set of Communities, community: Community)
->> requires the user to exist and to not already be in that community\
->> effects sets the user's profile community to the community they provide
+> setHobby (user: User, hobby: String)
+>> requires the user to exist and for hobby to not already be active in set of hobbies\
+>> effects adds the user's hobby to set of hobbies and marks it as active or just marks hobby from inactive to active\
+>> setCommunity also automatically called to add user to associated community with the same hobby name
 
-> setHobby (user: User, hobbies: set of Hobbies, hobby: Hobby)
->> requires the user to exist and to not be active\
->> effects sets the user's current hobby to the hobby they provide and marks it as active\
+> setCommunity (user: User, community: String)
+>> requires the user to exist and for community to not already be active in set of communities\
+>> effects adds the user's community to set of communities and marks it as active or just marks community membership from inactive to active
 
-> closeHobby (user: User, hobbies: set of Hobbies, hobby: Hobby)
->> requires the user to exist and for hobby to be active\
->> effects sets the hobby to inactive
+> closeHobby (user: User, hobby: String)
+>> requires the user to exist and for hobby to be active and in set of hobbies\
+>> effects sets the hobby to inactive and removes user from associated community, marketing that status as inactive as well
 
 > closeProfile (user: User)
->> requires user to exist
+>> requires user to exist in set of Users\
 >> effects sets the user's account to inactive, which means closed
 
 
