@@ -76,9 +76,6 @@ user, other users can see them \
 > a set of Hobbies with
 >> an active status Boolean
 
-> a set of Communities with
->> an active status Boolean
-
 > actions\
 > setName (user: User, displayname: String)
 >> requires the user to exist in set of users\
@@ -91,15 +88,10 @@ user, other users can see them \
 > setHobby (user: User, hobby: String)
 >> requires the user to exist and for hobby to not already be active in set of hobbies\
 >> effects adds the user's hobby to set of hobbies and marks it as active or just marks hobby from inactive to active\
->> setCommunity also automatically called to add user to associated community with the same hobby name
-
-> setCommunity (user: User, community: String)
->> requires the user to exist and for community to not already be active in set of communities\
->> effects adds the user's community to set of communities and marks it as active or just marks community membership from inactive to active
 
 > closeHobby (user: User, hobby: String)
->> requires the user to exist and for hobby to be active and in set of hobbies\
->> effects sets the hobby to inactive and removes user from associated community, marketing that status as inactive as well
+>> requires the user to exist and for hobby to be active in set of hobbies\
+>> effects sets the hobby to inactive
 
 > closeProfile (user: User)
 >> requires user to exist in set of Users\
@@ -111,74 +103,80 @@ user, other users can see them \
 > purpose allow users to connect with other users in a group\
 > principle after joining a group, users will be able to send messages to the users in the group\
 > state\
-> a set of UserProfiles
+> a set of Communities with\
+> a set of Users\
 > a set of messages Strings with
 >> a posted date Date\
->> user who shared it String\
->> a postID String
+>> an author String\
+>> a postID String\
 >> a set of comments Strings with
->> a commented date Date\
->> user who shared it String\
->> a postID String
+>>> a commented date Date\
+>>> user who shared it String\
+>>> a postID String
+
 > actions\
-> join (user: UserProfile, community: String)
->> requires the user to exist and for community to exist\
+> join (user: User, community: String): (community: Community)
+>> requires the user to exist and for community to exist in set of Communities\
 >> effects adds user to list of users in community
 
-> leave (user: User, community: String)
->> requires the user to be in the community\
->> effects removes user from list of users in community
+> leave (user: User, community: String): (community: Community)
+>> requires the user to be in the set of Users in the community\
+>> effects removes user from set of users in the community
 
-> post (user: UserProfile, community: String)
+> post (user: User, community: String): (community: Community)
 >> requires the user to be in the community\
->> effects user's message gets added to set of messages in community
+>> effects user's message gets added to set of messages in community, associates element such as author, posted date, and a postID with it
 
-> edit (user: UserProfile, post: String)
+> edit (user: User, post: String): (community: Community)
 >> requires the post to belong to the user\
 >> effects user's message reflects their new words
 
-> delete (user: UserProfile, community: String)
+> delete (user: User, community: String): (community: Community)
 >> requires the post to belong to the user\
 >> effects user's message gets deleted from set of messages in community
 
-> comment (user: UserProfile, comment: String, post: String, community: String)
+> comment (user: User, comment: String, post: String, community: String): (community: Community)
 >> requires the user to be in the community\
->> effects user's message gets added to thread of comments connected to a post, adds a new postID for comment
+>> effects user's message gets added to thread of comments connected to a post, associates an author, commented date, and a postID for each comment
 
 #### Concept 4
-> concept Milestones [User]\
-> purpose allow users to see the progress that they are making toward their goals\
-> principle after a user inputs their goals, they will see a steps they are yet to complete and those that they have completed\
+> concept Milestones [User, Hobby]\
+> purpose allow users to monitor the progress that they are making toward their goals\
+> principle after a user inputs their goals, they will see a set of steps they are yet to complete and those that they have completed\
 > state\
 > a set of goals Strings\
 > a set of steps Strings with
->> a completion Date\
 >> a description String\
 >> a start Date
+>> a completion Date\
 >> a status String
 > actions\
-> addGoals
->> completeStep
->> startStep
+> addGoal (goal: String): (goals: Strings)
+>> requires goal is not already in set of goals\
+>> effects adds goal to set of goals
+> startStep (step: String): (steps: Strings)
+>> requires step has a not started status\
+>> effects marks step as a status in process, records start date
+> completeStep (step: String): (steps: Strings)
+>> requires step has an in process status\
+>> effects marks step as a status complete, records completion date
 
 #### Concept 5
 > concept Quiz\
-> purpose let users get matched with a potential hobby\
+> purpose let users get matched with a hobby\
 > principle after registering, users can opt to take a quiz that matches them to a hobby \
 > state\
 > a set of questions Strings with
-> a answer String
-> a set of results String with
-> a match String
+>> a answer String
+
+> a result String
+
 > actions\
-> startQuiz
+> startQuiz (
 > completeQuiz
 
 ** Cover how communities are made, preset already made rather than being made by users
 ** reusability, history of communities
-** deleting account
-** user vs userprofile
-** set communities
 ** quiz in sync for profile
 ### Syncs
 
