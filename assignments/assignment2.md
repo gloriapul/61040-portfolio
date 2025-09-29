@@ -155,13 +155,16 @@ user, other users can see them \
 > addGoal (goal: String): (goals: Strings)
 >> requires goal is not already in set of goals\
 >> effects adds goal to set of goals
+
 > startStep (step: String): (steps: Strings)
 >> requires step has a not started status\
 >> effects marks step as a status in process, records start date
+
 > completeStep (step: String): (steps: Strings)
 >> requires step has an in process status\
 >> effects marks step as a status complete, records completion date\
 >> if all steps are complete, mark Milestones as inactive
+
 > closeMilestones ()
 >> requires milestones to be active\
 >> effects marks Milestones as inactive
@@ -185,11 +188,9 @@ sync hobbyEnding
 > then
 >> Milestones[hobby].closeMilestones()
 
-** Cover how communities are made, preset already made rather than being made by users
-** reusability, history of communities
-at most half a page long, explaining the role that your concepts play in the context of the app as a whole. For example, if you have an authentication or authorization concept, you should say how it’s used to control access to other particular concepts. You should also explain how generic type parameters will be instantiated whenever it’s non obvious. (For example, that a generic user type will be bound to the users of an authentication concept is obvious; that the targeted items of an upvoting concept are users would not be.)
-
 ### Brief note
+
+In this app, all of these concepts come together to cover basic functionality and important features. Users can track the progress they make by working on their Milestones, which are tied to the hobby they have in their UserProfile. Within their UserProfile, they can also have a display name, their profile picture, and old hobbies viewable by others, including those in their Communities. Within the Communities, users can interact with each other by commenting on each other’s posts. Users can select hobbies and communities from a predefined list of communities and hobbies made available by the app. The sync communityAccess also reflects how by deciding on a hobby, the user is added to the community for that hobby. PasswordAuthentication is the base concept that allows these other concepts to happen. Once the user is authenticated, they can make their profile. Once their hobby is set, whether it was by completing a quiz or deciding it themself, they have the ability to interact with all of the other features available. 
 
 ## UI Sketches
 
