@@ -203,8 +203,11 @@ Milestone Tracker
 Community
 ![Community page](Community.png)
 
-Profile
-![Profile page](Profile.png)
+Profile & Quiz
+![Profile and quiz page](Profile&Quiz.png)
 
+I did not add a sketch for a login/registration page as that it would be standard across any application. 
 
 ## User journey
+
+A user has just started her fourth year of college. She had been floating around a few potential ideas for hobbies, but it nervous that she won't be able to dedicate enough time for her interest. She finds out about HobbySprout and is interested in how it can make getting into a hobby easier. She registers for an account, and is directed to her profile. She adds in her 
