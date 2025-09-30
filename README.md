@@ -11,6 +11,8 @@ My name is Gloria Pulido, I'm a senior and a computer science major, nice to mee
 
 [Assignment 2](assignments/assignment2.md)
 
+[Assignment 3](assignments/assignment3.md)
+
 ## Problem Sets
 [Problem Set 1](assignments/pset1.md)
 
